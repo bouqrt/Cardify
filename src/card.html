@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="./output.css" rel="stylesheet">
+
+  <style> 
+    body{
+        display: flex;
+        justify-content: center;
+        padding-top: 300px;
+    }
+    
+  </style>
+</head>
+<body>
+
+<div class="main-card">
+  <div id="side1" class="absolute backface-hidden max-w-sm p-6 bg-slate-900 border border-sky-300 rounded-lg">
+    <h3 class="text-sky-300 text-center">Q-1</h3>
+    <p class="text-indigo-400">What is DOM
+    </p>
+    <br>
+    
+    <a href="#">
+        <button id="for-later" class="cursor-pointer max-w-sm text-sky-200 border border-sky-200 p-1 rounded-lg justify-content">flip</button>
+    </a>
+    </div>
+
+    <div id="side2" class="backface-hidden absolute max-w-sm p-6 bg-slate-900 border border-sky-300 rounded-lg">
+    <h3 class="text-sky-300 text-center">Answer</h3>
+    <p class="text-indigo-400">
+        Document Object Model
+    </p>
+    <br>
+    
+    <a href="#">
+        <button id="for-later" class="cursor-pointer max-w-sm text-sky-200 border border-sky-200 p-1 rounded-lg justify-content">flip</button>
+    </a>
+    </div>
+    </a>
+</div>
+
+<script>
+    const card = document.querySelector('main-card');
+
+    card.addEventListener('click', function()   {
+        
+        this.classList.toggle('is-flipped');
+    });
+
+</script>
+</body>
+</html>
