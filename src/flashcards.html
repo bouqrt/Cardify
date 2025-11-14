@@ -10,6 +10,7 @@
 <body class="bg-blue-300 min-h-screen flex flex-col">
 
   <!-- Header -->
+   <!-- -->
   <header class="bg-blue-300 shadow-md p-4 flex items-center">
     <h3 class="text-sky-900 text-xl font-semibold">📄IFY</h3>
   </header>
@@ -72,6 +73,109 @@
   <footer class="h-6 bg-blue-300"></footer>
   
 
+  <!-- JavaScript -->
+  <script>
+    const questionInput = document.getElementById('questionInput');
+    const answerInput = document.getElementById('answerInput');
+    const addExisting = document.getElementById('addExisting');
+    const addNew = document.getElementById('addNew');
+    const addCollection = document.getElementById('addCollection');
+    const collectionsDiv = document.getElementById('collections');
+    const cardsDisplay = document.getElementById('cardsDisplay');
+    const cardsList = document.getElementById('cardsList');
+    const collectionTitle = document.getElementById('collectionTitle');
+
+    // Store collections in memory
+    let collections = {
+      HTML: [
+        { question: "Qu'est-ce que HTML ?", answer: "Un langage de balisage pour structurer les pages web." }
+      ]
+    };
+    let currentCollection = null;
+
+    // Function to render cards
+    function showCards(collectionName) {
+      const cards = collections[collectionName];
+      cardsList.innerHTML = '';
+
+      if (!cards || cards.length === 0) {
+        cardsList.innerHTML = '<p class="text-gray-500">Aucune carte dans cette collection.</p>';
+      } else {
+        cards.forEach(card => {
+          const div = document.createElement('div');
+          div.className = 'border border-sky-200 rounded-lg p-3 text-left';
+          div.innerHTML = `<p class="font-semibold text-sky-900">Q: ${card.question}</p>
+                           <p class="text-sky-800">R: ${card.answer}</p>`;
+          cardsList.appendChild(div);
+        });
+      }
+
+      collectionTitle.textContent = `Collection: ${collectionName}`;
+      cardsDisplay.classList.remove('hidden');
+    }
+
+    // Handle existing card addition
+    addExisting.addEventListener('click', () => {
+      const q = questionInput.value.trim();
+      const a = answerInput.value.trim();
+
+      if (!q || !a) {
+        alert('Veuillez remplir les deux champs.');
+        return;
+      }
+
+      if (!currentCollection) {
+        alert('Veuillez d’abord sélectionner une collection.');
+        return;
+      }
+
+      collections[currentCollection].push({ question: q, answer: a });
+      showCards(currentCollection);
+      questionInput.value = '';
+      answerInput.value = '';
+    });
+
+    // Handle new collection creation
+    addNew.addEventListener('click', () => {
+      const newName = prompt('Nom de la nouvelle collection ?');
+      if (!newName || collections[newName]) return alert('Nom invalide ou déjà existant.');
+
+      collections[newName] = [];
+      addCollectionButton(newName);
+      alert(`Nouvelle collection "${newName}" créée.`);
+    });
+
+    // Handle add collection (+)
+    addCollection.addEventListener('click', () => {
+      const newName = prompt('Nom de la collection à ajouter ?');
+      if (!newName || collections[newName]) return alert('Nom invalide ou déjà existant.');
+
+      collections[newName] = [];
+      addCollectionButton(newName);
+      alert(`Nouvelle collection "${newName}" ajoutée.`);
+    });
+
+    // Create a clickable collection button
+    function addCollectionButton(name) {
+      const btn = document.createElement('button');
+      btn.dataset.name = name;
+      btn.className = 'collection-btn flex flex-col items-center hover:text-sky-400 transition';
+      btn.innerHTML = `<span class="text-sm mb-1">${name}</span><span>📄</span>`;
+      btn.addEventListener('click', () => {
+        currentCollection = name;
+        showCards(name);
+      });
+      collectionsDiv.insertBefore(btn, addCollection);
+    }
+
+    // Initialize default collection button
+    document.querySelectorAll('.collection-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const name = btn.dataset.name;
+        currentCollection = name;
+        showCards(name);
+      });
+    });
   </script>
 </body>
 </html>

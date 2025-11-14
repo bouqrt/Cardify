@@ -1,0 +1,18 @@
+[
+  {
+    "question": "Quelle balise HTML est utilisée pour créer un lien hypertexte ?",
+    "answer": "<a>"
+  },
+  {
+    "question": "Quelle propriété CSS change la couleur du texte ?",
+    "answer": "color"
+  },
+  {
+    "question": "Quel attribut HTML permet d'afficher un texte alternatif pour une image ?",
+    "answer": "alt"
+  },
+  {
+    "question":"",
+    "answer":""
+  }
+]
