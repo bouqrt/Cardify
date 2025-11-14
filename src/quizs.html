@@ -68,27 +68,27 @@
 
     <!-- Flip Card -->
     <div class="flip-card w-80 h-64">
-      <div class="flip-inner">
+      <div id="flip-inner" class="flip-inner">
         <!-- FRONT: Question -->
         <div class="flip-front">
-          <p class="text-lg font-semibold">
+          <p id="question-text" class="text-lg font-semibold">
             what's my name
           </p>
         </div>
 
         <!-- BACK: Answer -->
         <div class="flip-back">
-          <p class="text-lg font-semibold"> bouchra </p>
+          <p id="answer-text" class="text-lg font-semibold"> bouchra </p>
         </div>
       </div>
     </div>
 
     <!-- Navigation Buttons -->
     <div class="flex justify-center gap-6 mt-8">
-      <button class="bg-white text-sky-900 font-semibold px-6 py-2 rounded-full shadow hover:bg-sky-100 transition">
+      <button id="prevbtn" class="bg-white text-sky-900 font-semibold px-6 py-2 rounded-full shadow hover:bg-sky-100 transition">
         ← Précédent
       </button>
-      <button class="bg-white text-sky-900 font-semibold px-6 py-2 rounded-full shadow hover:bg-sky-100 transition">
+      <button id="nextbtn" class="bg-white text-sky-900 font-semibold px-6 py-2 rounded-full shadow hover:bg-sky-100 transition">
         Suivant →
       </button>
     </div>
@@ -100,5 +100,60 @@
   </main>
 
   <footer class="h-6 bg-blue-300"></footer>
+
+  <script>
+let questions = [];
+let currentIndex = 0;
+
+// Load JSON file
+async function loadQuestions() {
+  const response = await fetch("questions.json");
+  questions = await response.json();
+  
+  document.getElementById("total").textContent = questions.length;
+  displayQuestion();
+}
+
+// Display a question & answer
+function displayQuestion() {
+  document.getElementById("question-text").textContent =
+    questions[currentIndex].question;
+
+  document.getElementById("answer-text").textContent =
+    questions[currentIndex].answer;
+}
+
+// Next question
+document.getElementById("nextBtn").addEventListener("click", () => {
+  currentIndex = (currentIndex + 1) % questions.length;
+  resetFlip();
+  displayQuestion();
+});
+
+// Previous question
+document.getElementById("prevBtn").addEventListener("click", () => {
+  currentIndex = (currentIndex - 1 + questions.length) % questions.length;
+  resetFlip();
+  displayQuestion();
+});
+
+// remove flip when switching cards
+function resetFlip() {
+  document.getElementById("flip-inner").style.transform = "rotateY(0deg)";
+}
+
+// Flip on click (mobile-friendly)
+document.getElementById("flip-inner").addEventListener("click", () => {
+  const inner = document.getElementById("flip-inner");
+  if (inner.style.transform === "rotateY(180deg)") {
+    inner.style.transform = "rotateY(0deg)";
+  } else {
+    inner.style.transform = "rotateY(180deg)";
+  }
+});
+
+// Start
+loadQuestions();
+</script>
 </body>
 </html>
